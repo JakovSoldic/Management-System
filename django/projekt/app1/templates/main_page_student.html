@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body {
+        background: #008080;
+    }
+
+    .image1 {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+
+    .image2 {
+        position: absolute;
+        top: 90px;
+        right: 20px;
+    }
+
+    .image3 {
+        position: absolute;
+        top: 160px;
+        right: 20px;
+    }
+    
+    .image4 {
+        position: absolute;
+        bottom: 0;
+        left: 20px;
+        z-index: 3;
+    }
+
+    .start-text {
+        position: absolute;
+        bottom: 8px;
+        left: 55px; /* Adjust the value as needed for the desired positioning */
+        color: black;
+        font-weight: bold;
+        z-index: 3;
+        font-family: "Microsoft Sans Serif", sans-serif;
+    }
+
+    .time {
+        position: fixed;
+        bottom: 6px;
+        right: 10px;
+        z-index: 3;
+        font-family: "Microsoft Sans Serif", sans-serif;
+    }
+
+    h1 {
+        font-family: Arial, sans-serif; /* Specify the font family */
+        font-weight: bold; /* Set the font weight to bold */
+        text-align: center;
+    }
+
+    p {
+        font-family: Arial, sans-serif; /* Specify the font family */
+        font-weight: bold; /* Set the font weight to bold */
+        text-align: left;
+    }
+
+    .tab-item {
+        padding:8px 16px;
+        float:left;
+        width:auto;
+        border:none;
+        display:block;
+        outline:0
+    }
+
+    .sidebar {
+        height: 100%;
+        width: 200px;
+        background: #c0c0c0;
+        border: 1px solid #333333;
+        box-shadow: 5px 10px;
+        position: fixed !important;
+        z-index: 1;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        top: 0;
+        left: 0;
+        margin: 0;
+    }
+
+    .tablink {
+        display: inline-block;
+        font: bold 14px Arial;
+        text-decoration: none;
+        background-color: #EEEEEE;
+        color: #333333;
+        padding: 10px 20px;
+        border-top: 1px solid #CCCCCC;
+        border-right: 1px solid #333333;
+        border-bottom: 1px solid #333333;
+        border-left: 1px solid #CCCCCC;
+        width: 80%;
+        font-family: Arial, sans-serif;
+        margin-bottom: 10px; /* Add margin between the buttons */
+    }
+
+    .container {
+        border: 1px solid #333333;
+        padding: 20px;
+        text-align: left;
+        box-shadow: 5px 10px;
+        background: #c0c0c0;
+        width: 20%;
+        max-width: 600px;
+        margin-left: 20px;
+        margin-right: auto;
+    }
+
+    .form-table {
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+    }
+
+    li {
+        font-family: Arial, sans-serif; /* Specify the font family */
+        font-weight: bold; /* Set the font weight to bold */
+        color: white;
+    }
+
+    .upisi-style, .ispisi-style {
+        background-color: #c0c0c0;
+        color: darkblue;
+        cursor: pointer;
+        border: none;
+        text-align: left;
+        font-size: 15px;
+    }
+
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 30px;
+        background-color: #c0c0c0;
+        border-top: 1px solid #CCCCCC;
+        text-align: center;
+        z-index: 2;
+    }
+
+</style>
+<body>
+<img src="https://win98icons.alexmeub.com/icons/png/computer-4.png" alt="Image Description" class="image1">
+<img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_full-2.png" alt="Image Description" class="image2">
+<img src="https://win98icons.alexmeub.com/icons/png/directory_closed-4.png" alt="Image Description" class="image3">
+<img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" alt="Image Description" class="image4">
+<div class="footer"></div>
+<span class="start-text">Start</span>
+<span class="time">14:35</span>
+
+<div class="sidebar" style="width:130px">
+  <h1 class="tab-item">Menu</h1>
+  <button class="tablink" onclick="openCity(event, 'London')">Predmeti</button>
+  <button class="tablink" onclick="openCity(event, 'Japan')">Upisna lista</button>
+  <form action="{% url 'logout' %}" method="post" class="logout-form">
+    {% csrf_token %}
+    <input type="submit" value="Logout" class="tablink" style="width: 115%;margin-left: -8%;">
+  </form>
+</div>
+
+<div style="margin-left:130px">
+
+  {% if messages %}  
+      <ul>   
+          {% for message in messages %}  
+            <li>{{ message }}</li>  
+          {% endfor %}  
+    </ul>   
+  {% endif %}
+  <div id="London" class="city" style="display:none">
+    <div class="container">
+        <h1>Lista predmeta</h1>
+        {% if request.user.role.role == 'student' %}
+          {% if request.user.status == 'izvanredni' %}
+            {% regroup subjects by sem_izv as subjects_by_sem %}
+          {% elif request.user.status == 'redovni' %}
+            {% regroup subjects by sem_red as subjects_by_sem %}
+          {% endif %}
+
+          {% for group in subjects_by_sem %}
+            <p>{{ group.grouper }} Semestar:</p>
+            {% for subject in group.list %}
+            <form method="post" class="form-table">
+              {% csrf_token %}
+              <input type="hidden" name="subject_id" value="{{ subject.id }}">
+              <p>{{ subject.name }} ({{ subject.code }})</p>
+              <input type="submit" value="(Upiši predmet)" class="upisi-style">
+            </form>
+              {% endfor %}
+            <hr>
+          {% endfor %}
+        {% endif %}
+    </div>
+  </div>
+    
+  <div id="Japan" class="city" style="display:none">
+      <div class="container">
+        <h1>Lista upisanih predmeta</h1>
+        {% if request.user.role.role == 'student' %}
+          {% if request.user.status == 'izvanredni' %}
+            {% regroup enrolled by subject.sem_izv as enrolled_by_sem %}
+          {% elif request.user.status == 'redovni' %}
+            {% regroup enrolled by subject.sem_red as enrolled_by_sem %}
+          {% endif %}
+
+          {% for group in enrolled_by_sem %}
+            <p>{{ group.grouper }} Semestar:</p>
+            {% for enrollment in group.list %}
+            <form method="post" class="form-table">
+              {% csrf_token %}
+              <input type="hidden" name="subject_delete" value="{{ enrollment.subject.id }}">
+              <p>{{ enrollment.subject.name }} ({{ enrollment.status }})</p>
+              {% if enrollment.status == 'upisan' %}
+              <input type="submit" value="(Ispiši predmet)" class="ispisi-style">
+              {% endif %}
+            </form>
+            {% endfor %}
+            <hr>
+          {% endfor %}
+          <p>Ukupno bodova: {{ total_points }}</p>
+        {% endif %}
+      <div>
+  </div>
+
+</div>
+<script>
+    function openCity(evt, cityName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        document.getElementById(cityName).style.display = "block";
+    }
+    
+    var acc = document.getElementsByClassName("accordion");
+    var j;
+
+    for (j = 0; j < acc.length; j++) {
+    acc[j].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+        panel.style.display = "none";
+        } else {
+        panel.style.display = "block";
+        }
+    });
+    }
+</script>
+
+</body>
+</html>

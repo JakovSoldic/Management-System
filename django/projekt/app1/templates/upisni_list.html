@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <h1>Upisna lista</h1>
+    <p>Student: {{ student.username }}</p>
+    <p>Upisani predmeti:</p>
+    {% for enrollment in enrollments %}
+    <p>{{ enrollment.subject.name }}({{ enrollment.subject.code }}) - {{ enrollment.status }}</p>
+    {% endfor %}
+</body>
+</html>

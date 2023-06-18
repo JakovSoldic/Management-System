@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body {
+        background: #008080;
+    }
+
+    .image1 {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+
+    .image2 {
+        position: absolute;
+        top: 90px;
+        right: 20px;
+    }
+
+    .image3 {
+        position: absolute;
+        top: 160px;
+        right: 20px;
+    }
+    
+    .image4 {
+        position: absolute;
+        bottom: 0;
+        left: 20px;
+        z-index: 3;
+    }
+
+    .start-text {
+        position: absolute;
+        bottom: 8px;
+        left: 55px; /* Adjust the value as needed for the desired positioning */
+        color: black;
+        font-weight: bold;
+        z-index: 3;
+        font-family: "Microsoft Sans Serif", sans-serif;
+    }
+
+    .time {
+        position: fixed;
+        bottom: 6px;
+        right: 10px;
+        z-index: 3;
+        font-family: "Microsoft Sans Serif", sans-serif;
+    }
+
+    h1 {
+        font-family: Arial, sans-serif; /* Specify the font family */
+        font-weight: bold; /* Set the font weight to bold */
+        text-align: center;
+    }
+
+    p {
+        font-family: Arial, sans-serif; /* Specify the font family */
+        font-weight: bold; /* Set the font weight to bold */
+        text-align: left;
+    }
+
+    .tab-item {
+        padding:8px 16px;
+        float:left;
+        width:auto;
+        border:none;
+        display:block;
+        outline:0
+    }
+
+    .sidebar {
+        height: 100%;
+        width: 200px;
+        background: #c0c0c0;
+        border: 1px solid #333333;
+        box-shadow: 5px 10px;
+        position: fixed !important;
+        z-index: 1;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        top: 0;
+        left: 0;
+        margin: 0;
+    }
+
+    .tablink {
+        display: inline-block;
+        font: bold 14px Arial;
+        text-decoration: none;
+        background-color: #EEEEEE;
+        color: #333333;
+        padding: 10px 20px;
+        border-top: 1px solid #CCCCCC;
+        border-right: 1px solid #333333;
+        border-bottom: 1px solid #333333;
+        border-left: 1px solid #CCCCCC;
+        width: 80%;
+        font-family: Arial, sans-serif;
+        margin-bottom: 10px;
+    }
+
+    .register-button {
+        margin-left: 0%;
+        width: 62px;
+        display: inline-block;
+        font: bold 14px Arial;
+        text-decoration: none;
+        background-color: #EEEEEE;
+        color: #333333;
+        padding: 10px 20px;
+        border-top: 1px solid #CCCCCC;
+        border-right: 1px solid #333333;
+        border-bottom: 1px solid #333333;
+        border-left: 1px solid #CCCCCC;
+        font-family: Arial, sans-serif;
+        margin-bottom: 10px;
+    }
+
+    .container {
+        border: 1px solid #333333;
+        padding: 20px;
+        text-align: left;
+        box-shadow: 5px 10px;
+        background: #c0c0c0;
+        width: 20%;
+        max-width: 600px;
+        margin-left: 20px;
+        margin-right: auto;
+    }
+
+    .form-table {
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+    }
+
+    a {
+        font-family: Arial, sans-serif;
+    }
+
+    input {
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+    }
+
+    select {
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+    }
+
+    li {
+        font-family: Arial, sans-serif; /* Specify the font family */
+        font-weight: bold; /* Set the font weight to bold */
+        color: white;
+    }
+
+    .edit-style, .edit-student, .edit-professor, a {
+        background-color: #c0c0c0;
+        color: darkblue;
+        cursor: pointer;
+        border: none;
+        text-align: left;
+        font-size: 15px;
+    }
+
+    .accordion {
+        background-color: #c0c0c0;
+        color: darkblue;
+        cursor: pointer;
+        border: none;
+        text-align: left;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+    .panel {
+        border: 1px solid #333333;
+        padding: 0 18px;
+        display: none;
+        background-color: white;
+        overflow: hidden;
+    }
+
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 30px;
+        background-color: #c0c0c0;
+        border-top: 1px solid #CCCCCC;
+        text-align: center;
+        z-index: 2;
+    }
+
+</style>
+<body>
+<img src="https://win98icons.alexmeub.com/icons/png/computer-4.png" alt="Image Description" class="image1">
+<img src="https://win98icons.alexmeub.com/icons/png/recycle_bin_full-2.png" alt="Image Description" class="image2">
+<img src="https://win98icons.alexmeub.com/icons/png/directory_closed-4.png" alt="Image Description" class="image3">
+<img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" alt="Image Description" class="image4">
+<div class="footer"></div>
+<span class="start-text">Start</span>
+<span class="time">14:35</span>
+
+<div class="sidebar" style="width:130px">
+  <h1 class="tab-item">Menu</h1>
+  <button class="tablink" onclick="openCity(event, 'London')">Dodaj Predmet</button>
+  <button class="tablink" onclick="openCity(event, 'Japan')">Predmeti</button>
+  <button class="tablink" onclick="openCity(event, 'Paris')">Studenti</button>
+  <button class="tablink" onclick="openCity(event, 'Tokyo')">Profesori</button>
+  <a href="/register" class="register-button">Dodaj korisnika</a>
+  <form action="{% url 'logout' %}" method="post" class="logout-form">
+    {% csrf_token %}
+    <input type="submit" value="Logout" class="tablink" style="width: 115%;margin-left: -8%;">
+  </form>
+</div>
+
+<div style="margin-left:130px">
+
+    {% if messages %}  
+    <ul>   
+        {% for message in messages %}  
+            <li>{{ message }}</li>  
+            {% endfor %}  
+    </ul>   
+    {% endif %}
+  <div id="London" class="city" style="display:none">
+    <div class="container">
+        <h1>Dodaj predmet</h1>
+        <form method="post" class="form-table">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Create" class="tablink" style="width: 100%;" name="add_form">
+        </form>  
+    </div>
+  </div>
+
+    <div id="Paris" class="city" style="display:none">
+        <div class="container">
+            <h1>Lista studenata</h1>
+            {% for student in students %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                    <p>Name: {{ student.username }}</p><a href="/upisni_list/{{ student.id }}" target="_blank">Upisna lista</a>
+                    <p>Status: {{ student.status }}</p>
+                    <input type="submit" value="(Delete)" class="edit-style">
+                </form>
+                <button class="edit-student" onclick="toggleFormStudent('{{ student.id }}')">(Edit)</button>
+                <hr>
+                <div id="edit-panel-student-{{ student.id }}" style="display:none">
+                    <form method="post" class="form-table">
+                        {% csrf_token %}
+                        <input type="hidden" name="edit_student_id" value="{{ student.id }}">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" value="{{ student.username }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" value="{{ student.email }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="text" id="password" name="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status:</label>
+                            <select id="status" name="status">
+                                {% for choice in student.STATUS_CHOICES %}
+                                <option value="{{ choice.0 }}" {% if student.status == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <br>
+                        <input type="submit" value="Save" class="tablink" style="width: 100%;" name="edit_form">
+                    </form>
+                </div>
+            {% endfor %} 
+        </div>
+    </div>
+
+    <div id="Tokyo" class="city" style="display:none">
+        <div class="container">
+            <h1>Lista profesora</h1>
+            {% for professor in professors %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="professor_id" value="{{ professor.id }}">
+                    <p>{{ professor.username }}</p>
+                    <input type="submit" value="(Delete)" class="edit-style">
+                </form>
+                <button class="edit-professor" onclick="toggleFormProfessor('{{ professor.id }}')">(Edit)</button>
+                <hr>
+                <div id="edit-panel-professor-{{ professor.id }}" style="display:none">
+                    <form method="post" class="form-table">
+                        {% csrf_token %}
+                        <input type="hidden" name="edit_professor_id" value="{{ professor.id }}">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" value="{{ professor.username }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" value="{{ professor.email }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="text" id="password" name="password">
+                        </div>
+                        <br>
+                        <input type="submit" value="Save" class="tablink" style="width: 100%;" name="edit_form">
+                    </form>
+                </div>
+            {% endfor %} 
+        </div>
+    </div>
+
+    <div id="Japan" class="city" style="display:none">
+        <div class="container">
+            <h1>Lista predmeta</h1>
+            {% for subject in subjects %}
+            <p>{{ subject.name }} ({{ subject.code }})</p><button class="edit-style" onclick="toggleForm('{{ subject.id }}')">(Edit)</button><button class="accordion">(Details)</button>
+            <div class="panel">
+                <p>Carrier professor: {{ subject.carrier }}</p>
+                <p>Enrolled students:
+                    {% if subject.enrollment_set.exists %}
+                        {% for enrollment in subject.enrollment_set.all %}
+                            {{ enrollment.student }}
+                        {% endfor %}
+                    {% else %}
+                        None
+                    {% endif %}
+                </p>
+            </div>
+            <div id="edit-panel-{{ subject.id }}" style="display:none">
+                <form method="post" class="form-table">
+                    {% csrf_token %}
+                    <input type="hidden" name="subject_id" value="{{ subject.id }}">
+                    <div class="form-group">
+                        <label for="id_name">Name:</label>
+                        <input type="text" id="id_name" name="name" value="{{ subject.name }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_code">Code:</label>
+                        <input type="text" id="id_code" name="code" value="{{ subject.code }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_program">Program:</label>
+                        <textarea id="id_program" name="program">{{ subject.program }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_points">Points:</label>
+                        <input type="number" id="id_points" name="points" value="{{ subject.points }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_sem_red">Sem Red:</label>
+                        <input type="number" id="id_sem_red" name="sem_red" value="{{ subject.sem_red }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_sem_izv">Sem Izv:</label>
+                        <input type="number" id="id_sem_izv" name="sem_izv" value="{{ subject.sem_izv }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_izborni">Izborni:</label>
+                        <select id="id_izborni" name="izborni">
+                            {% for choice in subject.IZBORNI_CHOICES %}
+                            <option value="{{ choice.0 }}" {% if subject.izborni == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_carrier">Carrier:</label>
+                        <select id="id_carrier" name="carrier">
+                            {% for professor in professors %}
+                            <option value="{{ professor.id }}" {% if subject.carrier_id == professor.id %}selected{% endif %}>{{ professor.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <input type="submit" value="Save" class="tablink" style="width: 100%;" name="edit_form">
+                </form>
+            </div>
+            <hr>
+            {% endfor %}
+        <div>
+    </div>
+
+</div>
+<script>
+    function openCity(evt, cityName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        document.getElementById(cityName).style.display = "block";
+    }
+    
+    var acc = document.getElementsByClassName("accordion");
+    var j;
+
+    for (j = 0; j < acc.length; j++) {
+    acc[j].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+        panel.style.display = "none";
+        } else {
+        panel.style.display = "block";
+        }
+    });
+    }
+
+    function toggleForm(subjectId) {
+        var editPanel = document.getElementById('edit-panel-' + subjectId);
+        if (editPanel.style.display === "none") {
+            editPanel.style.display = "block";
+        } else {
+            editPanel.style.display = "none";
+        }
+    }
+
+    function toggleFormStudent(studentId) {
+        var editPanel = document.getElementById('edit-panel-student-' + studentId);
+        if (editPanel.style.display === "none") {
+            editPanel.style.display = "block";
+        } else {
+            editPanel.style.display = "none";
+        }
+    }
+
+    function toggleFormProfessor(professorId) {
+        var editPanel = document.getElementById('edit-panel-professor-' + professorId);
+        if (editPanel.style.display === "none") {
+            editPanel.style.display = "block";
+        } else {
+            editPanel.style.display = "none";
+        }
+    }
+
+</script>
+
+</body>
+</html>
